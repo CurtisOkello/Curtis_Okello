@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curtis Okello - Security Engineer & Solutions Architect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --dark-bg: #121212;
+            --darker-bg: #0a0a0a;
+            --light-text: #f5f5f5;
+            --red-accent: #ff3333;
+            --red-accent-hover: #ff6666;
+            --card-bg: #1e1e1e;
+            --scrollbar-track: #121212;
+            --scrollbar-thumb: #ff3333;
+            --scrollbar-thumb-hover: #ff6666;
+            --nav-height: 60px;
+            --nav-transition: 0.4s;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: var(--scrollbar-track);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--scrollbar-thumb-hover);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--light-text);
+            line-height: 1.6;
+            padding-top: var(--nav-height); /* Add padding to account for fixed navbar */
+        }
+        
+        header {
+            background-color: var(--darker-bg);
+            padding: 2rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cyber-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.1;
+            background-image: 
+                linear-gradient(var(--red-accent) 1px, transparent 1px),
+                linear-gradient(90deg, var(--red-accent) 1px, transparent 1px);
+            background-size: 20px 20px;
+            z-index: 1;
+        }
+        
+        .profile-pic {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            border: 3px solid var(--red-accent);
+            margin-bottom: 1rem;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+        }
+        
+        .profile-pic i {
+            font-size: 80px;
+            color: var(--light-text);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .title {
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--red-accent);
+        }
+        
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .contact-info i {
+            color: var(--red-accent);
+        }
+        
+        nav {
+            background-color: var(--darker-bg);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            height: var(--nav-height);
+            transition: transform var(--nav-transition);
+        }
+        
+        nav.hidden {
+            transform: translateY(-100%);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 100%;
+            padding: 0 1rem;
+        }
+        
+        .nav-logo {
+            font-weight: bold;
+            color: var(--red-accent);
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            height: 100%;
+            margin: 0;
+        }
+        
+        .nav-links li {
+            height: 100%;
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-links li a {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            padding: 0 1rem;
+            color: var(--light-text);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--red-accent);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        
+        .nav-links li a:hover::after,
+        .nav-links li a.active::after {
+            transform: scaleX(1);
+        }
+        
+        .nav-links li a:hover,
+        .nav-links li a.active {
+            color: var(--red-accent);
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        section {
+            margin-bottom: 3rem;
+        }
+        
+        .section-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--red-accent);
+            display: inline-block;
+        }
+        
+        .experience-grid, 
+        .education-grid,
+        .volunteering-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 3px solid var(--red-accent);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: var(--red-accent);
+        }
+        
+        .card-subtitle {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            color: #ccc;
+        }
+        
+        .card-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 1rem;
+        }
+        
+        .card-content {
+            font-size: 0.95rem;
+        }
+        
+        .contact-email {
+            font-size: 0.85rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+        
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .cert-card {
+            background-color: var(--card-bg);
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            border-top: 3px solid var(--red-accent);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .cert-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+        
+        .cert-icon {
+            font-size: 2rem;
+            color: var(--red-accent);
+            margin-bottom: 1rem;
+            align-self: center;
+        }
+        
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        
+        .skill-tag {
+            background-color: rgba(255, 51, 51, 0.15);
+            color: var(--light-text);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 51, 51, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .skill-tag:hover {
+            background-color: rgba(255, 51, 51, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        footer {
+            background-color: var(--darker-bg);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-text {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .highlight-text {
+            color: var(--red-accent);
+            font-weight: 500;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--red-accent);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: var(--red-accent-hover);
+            transform: translateY(-2px);
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-container {
+                justify-content: space-between;
+            }
+            
+            .nav-links {
+                position: absolute;
+                top: var(--nav-height);
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background-color: var(--darker-bg);
+                height: auto;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            }
+            
+            .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            
+            .nav-links li {
+                width: 100%;
+                height: auto;
+            }
+            
+            .nav-links li a {
+                width: 100%;
+                padding: 1rem;
+                justify-content: center;
+            }
+            
+            header {
+                padding: 1.5rem 0;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .contact-info {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="cyber-pattern"></div>
+        <div class="header-content">
+            <div class="profile-pic">
+                <i class="fas fa-user"></i>
+            </div>
+            <h1>Curtis Okello</h1>
+            <p class="title">Security Engineer | Solutions Architect</p>
+            <div class="contact-info">
+                <div>
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Nairobi, Kenya</span>
+                </div>
+                <div>
+                    <i class="fas fa-phone"></i>
+                    <span>(+254) 797689822</span>
+                </div>
+                <div>
+                    <i class="fas fa-envelope"></i>
+                    <span>curtisokello@gmail.com</span>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <nav id="main-nav">
+        <div class="nav-container">
+            <a href="#" class="nav-logo">CURTIS OKELLO</a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#certifications">Certifications</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#volunteering">Volunteering</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+    
+    <main>
+        <section id="about">
+            <h2 class="section-title">About Me</h2>
+            <p>
+                I am a passionate Security Engineer and Solutions Architect with expertise in cybersecurity, cloud computing, and software development. 
+                My focus areas include penetration testing, cloud security, and implementing secure solutions. 
+                With a strong foundation in AWS technologies and various security certifications, I am committed to creating secure digital environments
+                and sharing knowledge with the community through mentoring and volunteering.
+            </p>
+            <div class="btn-container" style="text-align: center; margin-top: 2rem;">
+                <a href="#contact" class="btn">Get In Touch</a>
+            </div>
+        </section>
+        
+        <section id="experience">
+            <h2 class="section-title">Professional Experience</h2>
+            <div class="experience-grid">
+                <div class="card">
+                    <h3 class="card-title">Cyber Security and Penetration Testing Intern</h3>
+                    <h4 class="card-subtitle">Hactify Cyber Security</h4>
+                    <p class="card-date">February 2025</p>
+                    <p class="card-content">
+                        Performed web penetration testing and completed CTF style assignments to strengthen practical security skills and identify vulnerabilities.
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">IT Intern</h3>
+                    <h4 class="card-subtitle">Help a Child Africa</h4>
+                    <p class="card-date">July 2024 - September 2024</p>
+                    <p class="card-content">
+                        Conducted Cybersecurity training and assessment, consulted on digital infrastructure setup, developed ICT needs budget, and provided training on their Salesforce-based sponsorship program.
+                    </p>
+                    <p class="contact-email">
+                        Contact: arnold.ongonyandiko@hacafrica.org
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Back-End Engineer Intern</h3>
+                    <h4 class="card-subtitle">Kenya Forestry Research Institute</h4>
+                    <p class="card-date">May 2024 - June 2024</p>
+                    <p class="card-content">
+                        Collaborated with a team to develop the official KEFRI website, working under the back-end engineer to learn various technologies and techniques in web development.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="projects">
+            <h2 class="section-title">Projects</h2>
+            
+            <!-- Project Category Navigation -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <div class="skills-container" style="justify-content: center;">
+                    <a href="#cloud-projects" class="skill-tag" style="text-decoration: none; cursor: pointer; font-weight: 500;">Cloud Projects</a>
+                    <a href="#cybersecurity-projects" class="skill-tag" style="text-decoration: none; cursor: pointer; font-weight: 500;">Cybersecurity Projects</a>
+                    <a href="#webdev-projects" class="skill-tag" style="text-decoration: none; cursor: pointer; font-weight: 500;">Web Development Projects</a>
+                </div>
+            </div>
+            
+            <!-- Cloud Projects -->
+            <div id="cloud-projects">
+                <h3 style="color: var(--red-accent); margin-bottom: 1.5rem; font-size: 1.5rem;">Cloud Projects</h3>
+                <div class="experience-grid">
+                    <div class="card">
+                        <h3 class="card-title">AWS Serverless API Gateway</h3>
+                        <p class="card-date">March 2025</p>
+                        <p class="card-content">
+                            Designed and implemented a serverless architecture using AWS Lambda, API Gateway, and DynamoDB to create a scalable and secure backend service for a mobile application.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">AWS Lambda</span>
+                            <span class="skill-tag">API Gateway</span>
+                            <span class="skill-tag">DynamoDB</span>
+                            <span class="skill-tag">Serverless</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Cloud Security Monitoring Dashboard</h3>
+                        <p class="card-date">January 2025</p>
+                        <p class="card-content">
+                            Created a comprehensive security monitoring solution using AWS CloudWatch, Security Hub, and GuardDuty to provide real-time threat detection and security posture visibility.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">CloudWatch</span>
+                            <span class="skill-tag">Security Hub</span>
+                            <span class="skill-tag">GuardDuty</span>
+                            <span class="skill-tag">CloudTrail</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Multi-Environment Kubernetes Deployment</h3>
+                        <p class="card-date">December 2024</p>
+                        <p class="card-content">
+                            Implemented a robust Kubernetes deployment strategy with containerized microservices across development, staging, and production environments using AWS EKS.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">Kubernetes</span>
+                            <span class="skill-tag">Docker</span>
+                            <span class="skill-tag">AWS EKS</span>
+                            <span class="skill-tag">CI/CD</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Cybersecurity Projects -->
+            <div id="cybersecurity-projects" style="margin-top: 3rem;">
+                <h3 style="color: var(--red-accent); margin-bottom: 1.5rem; font-size: 1.5rem;">Cybersecurity Projects</h3>
+                <div class="experience-grid">
+                    <div class="card">
+                        <h3 class="card-title">Web Application Vulnerability Assessment</h3>
+                        <p class="card-date">February 2025</p>
+                        <p class="card-content">
+                            Conducted a comprehensive vulnerability assessment for an e-commerce platform, identifying and documenting OWASP Top 10 vulnerabilities with detailed remediation strategies.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">OWASP</span>
+                            <span class="skill-tag">Penetration Testing</span>
+                            <span class="skill-tag">Burp Suite</span>
+                            <span class="skill-tag">SAST/DAST</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Network Security Monitoring System</h3>
+                        <p class="card-date">November 2024</p>
+                        <p class="card-content">
+                            Developed a network security monitoring system using open-source tools (Suricata, ELK Stack) to detect and alert on suspicious network traffic and potential intrusions.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">Suricata</span>
+                            <span class="skill-tag">ELK Stack</span>
+                            <span class="skill-tag">Network Security</span>
+                            <span class="skill-tag">IDS/IPS</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Security Incident Response Playbook</h3>
+                        <p class="card-date">October 2024</p>
+                        <p class="card-content">
+                            Created a comprehensive security incident response playbook for an organization, including detection procedures, containment strategies, and recovery protocols for various threat scenarios.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">Incident Response</span>
+                            <span class="skill-tag">NIST Framework</span>
+                            <span class="skill-tag">Threat Modeling</span>
+                            <span class="skill-tag">Documentation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Web Development Projects -->
+            <div id="webdev-projects" style="margin-top: 3rem;">
+                <h3 style="color: var(--red-accent); margin-bottom: 1.5rem; font-size: 1.5rem;">Web Development Projects</h3>
+                <div class="experience-grid">
+                    <div class="card">
+                        <h3 class="card-title">KEFRI Official Website</h3>
+                        <p class="card-date">June 2024</p>
+                        <p class="card-content">
+                            Contributed to the development of the Kenya Forestry Research Institute's official website, focusing on backend functionality, database integration, and secure user authentication.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">Node.js</span>
+                            <span class="skill-tag">Express</span>
+                            <span class="skill-tag">MongoDB</span>
+                            <span class="skill-tag">JWT Auth</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Secure E-Learning Platform</h3>
+                        <p class="card-date">April 2024</p>
+                        <p class="card-content">
+                            Designed and developed a secure e-learning platform featuring user authentication, content management, and interactive learning modules with comprehensive security controls.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">React</span>
+                            <span class="skill-tag">Firebase</span>
+                            <span class="skill-tag">OAuth</span>
+                            <span class="skill-tag">RBAC</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h3 class="card-title">Cybersecurity Blog</h3>
+                        <p class="card-date">March 2024</p>
+                        <p class="card-content">
+                            Created a personal cybersecurity blog to share insights, tutorials, and analyses of current security trends and vulnerabilities, featuring a custom CMS and responsive design.
+                        </p>
+                        <div class="skills-container" style="margin-top: 1rem;">
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Flask</span>
+                            <span class="skill-tag">PostgreSQL</span>
+                            <span class="skill-tag">Responsive Design</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="certifications">
+            <h2 class="section-title">Certifications</h2>
+            <div class="certs-grid">
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="card-title">Certified Ethical Hacker</h3>
+                    <p class="card-subtitle">Cisco</p>
+                    <p class="card-date">Issued March 2025</p>
+                </div>
+                
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h3 class="card-title">Security+ Prep</h3>
+                    <p class="card-subtitle">Charles Sturt University</p>
+                    <p class="card-date">Issued March 2025</p>
+                </div>
+                
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <h3 class="card-title">AWS Solutions Architect</h3>
+                    <p class="card-subtitle">Amazon Web Services</p>
+                    <p class="card-date">Issued February 2025</p>
+                    <p class="card-content">Skills: Containerization with Docker and Kubernetes</p>
+                </div>
+                
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3 class="card-title">Artificial Intelligence Fundamentals</h3>
+                    <p class="card-subtitle">IBM</p>
+                    <p class="card-date">Issued September 2024</p>
+                </div>
+                
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <h3 class="card-title">AWS Cloud Practitioner</h3>
+                    <p class="card-subtitle">Amazon Web Services</p>
+                    <p class="card-date">Issued August 2024</p>
+                </div>
+                
+                <div class="cert-card">
+                    <div class="cert-icon">
+                        <i class="fas fa-code"></i>
+                    </div>
+                    <h3 class="card-title">Software Development</h3>
+                    <p class="card-subtitle">Power Learn Project</p>
+                    <p class="card-date">Issued May 2024</p>
+                    <p class="card-content">Skills: Python Development, Javascript, Dart with Flutter, SQL, Web Development</p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="skills">
+            <h2 class="section-title">Technical Skills</h2>
+            <div class="skills-container">
+                <span class="skill-tag">Penetration Testing</span>
+                <span class="skill-tag">Cloud Security</span>
+                <span class="skill-tag">AWS</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Flutter</span>
+                <span class="skill-tag">Dart</span>
+                <span class="skill-tag">SQL</span>
+                <span class="skill-tag">Web Development</span>
+                <span class="skill-tag">Cybersecurity Assessment</span>
+                <span class="skill-tag">Salesforce</span>
+                <span class="skill-tag">Back-End Development</span>
+                <span class="skill-tag">Ethical Hacking</span>
+                <span class="skill-tag">Artificial Intelligence</span>
+            </div>
+        </section>
+        
+        <section id="volunteering">
+            <h2 class="section-title">Volunteering & Leadership</h2>
+            <div class="volunteering-grid">
+                <div class="card">
+                    <h3 class="card-title">AWS Cloud Mentor</h3>
+                    <h4 class="card-subtitle">ALX Africa</h4>
+                    <p class="card-date">May 2025 - Present</p>
+                    <p class="card-content">
+                        Currently volunteering at ALX Africa where I guide learners pursuing the Cloud Computing track to attain their certifications and help them understand cloud concepts with ease.
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Cloud Lead</h3>
+                    <h4 class="card-subtitle">KCA University Cyber Security Club</h4>
+                    <p class="card-date">May 2025 - Present</p>
+                    <p class="card-content">
+                        Currently serving as the cloud lead for KCA University Cyber Security club where I help fellow students get into cloud security through weekly web sessions.
+                    </p>
+                </div>
+                
+                <div class="card">
+                    <h3 class="card-title">Campus Ambassador</h3>
+                    <h4 class="card-subtitle">BSides Nairobi</h4>
+                    <p class="card-date">November 2022 - Present</p>
+                    <p class="card-content">
+                        Currently serving as the student campus ambassador to BSides Nairobi, one of the largest cybersecurity communities in Kenya.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="education">
+            <h2 class="section-title">Education</h2>
+            <div class="education-grid">
+                <div class="card">
+                    <h3 class="card-title">BSc. Information Security and Forensics</h3>
+                    <h4 class="card-subtitle">KCA University</h4>
+                    <p class="card-date">September 2022 - December 2025 (Expected)</p>
+                    <p class="card-content">
+                        Currently pursuing a Degree in Information Security and Forensics, focusing on cybersecurity, digital forensics, and secure systems design.
+                    </p>
+                </div>
+            </div>
+        </section>
+        
+        <section id="contact">
+            <h2 class="section-title">Contact Me</h2>
+            <div class="card" style="max-width: 600px; margin: 0 auto;">
+                <p style="margin-bottom: 1.5rem;">
+                    I'm always open to discussing new projects, opportunities, or collaborations. Feel free to reach out through any of the following channels:
+                </p>
+                <div style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-envelope" style="color: var(--red-accent); font-size: 1.5rem;"></i>
+                        <span>curtisokello@gmail.com</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-phone" style="color: var(--red-accent); font-size: 1.5rem;"></i>
+                        <span>(+254) 797689822</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <i class="fas fa-map-marker-alt" style="color: var(--red-accent); font-size: 1.5rem;"></i>
+                        <span>Nairobi, Kenya</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <div class="footer-text">
+            <p>© 2025 Curtis Okello. All rights reserved.</p>
+            <p style="margin-top: 1rem;">
+                Security Engineer | Solutions Architect | <span class="highlight-text">Creating secure digital environments</span>
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        // Hide navigation bar on scroll down, show on scroll up
+        let lastScrollTop = 0;
+        const navbar = document.getElementById('main-nav');
+        
+        window.addEventListener('scroll', () => {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // If we're scrolling down and we're past the header
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                navbar.classList.add('hidden');
+            } else {
+                // We're scrolling up or we're near the top
+                navbar.classList.remove('hidden');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+            });
+        });
+        
+        // Smooth scrolling for all internal links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 60, // Account for navbar height
+                        behavior: 'smooth'
+                    });
+                    
+                    // Update active link if it's a main nav link
+                    if (this.parentElement.parentElement.classList.contains('nav-links')) {
+                        document.querySelectorAll('nav a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                }
+            });
+        });
+        
+        // Update active navigation link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    current = '#' + section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+        
+        // Add hover animation to project cards
+        document.addEventListener('DOMContentLoaded', () => {
+            const projectCards = document.querySelectorAll('#projects .card');
+            
+            projectCards.forEach(card => {
+                card.addEventListener('mouseenter', () => {
+                    card.style.transform = 'translateY(-10px)';
+                    card.style.boxShadow = '0 12px 20px rgba(0, 0, 0, 0.4)';
+                    card.style.borderLeftWidth = '5px';
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = 'translateY(0)';
+                    card.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.2)';
+                    card.style.borderLeftWidth = '3px';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
